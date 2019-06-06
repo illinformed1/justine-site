@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import "./App.css";
-import Routes, { NavLink } from "./Routes";
-import { BrowserRouter as Router } from "react-router-dom";
+import Routes from "./Routes";
+import AppProvider, { AppContext } from "./AppContext";
+import { Link, BrowserRouter as Router } from "react-router-dom";
 
 const navigation = [
   { title: "Sheet", id: 1, path: "/sheets" },
@@ -24,95 +25,65 @@ function App() {
 
   return (
     <div className="App">
-      <Routes navigation={navigation} />
       <HeadingWrapper>
-        <span>
-          <i className="fab fa-instagram" />
-        </span>
-        <span>
-          <i className="fas fa-cart-plus" />
-        </span>
-        <span>
-          <i className="fas fa-box-open" />
-        </span>
+        <Icons>
+          <span>
+            <a href="http://www.instagram.com">
+              <img src={"/img/instagram-icon.jpeg"} className="instagram" />
+            </a>
+          </span>
+        </Icons>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <h1>Fitted</h1>
-          <div style={{ display: "flex" }}>
-            <Router>
-              {navigation.map(({ title, id, path }) => {
-                return (
-                  <NavLink
-                    to={`${path}`}
-                    className="nav-item"
-                    style={{ margin: "1rem" }}
-                  >
-                    {title}
-                  </NavLink>
-                );
-              })}
-            </Router>
-          </div>
+          <div style={{ display: "flex" }} />
         </div>
       </HeadingWrapper>
-      <TextAndPic>
-        <p className="text">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis
-          officiis rem incidunt explicabo minus ad quisquam. Minus, ex fugiat
-          nemo at velit hic quo mollitia accusantium. Adipisci voluptate
-          consectetur veritatis distinctio eaque, sequi tenetur quaerat quis
-          omnis ipsam perspiciatis nulla? Iusto quia repellendus alias molestias
-          commodi in aut aspernatur dolor.
-        </p>
-        {/*   <img
-          style={{
-            width: "500px",
-            height: "500px",
-            flexShrink: 0,
-            margin: "2rem"
-          }}
-          src={`/img/${imgCounter}.jpg`}
-        /> */}
-      </TextAndPic>
+      <AppProvider>
+        <Routes />
+      </AppProvider>
     </div>
   );
 }
 
-const HeadingWrapper = styled.div`
+const Icons = styled.div`
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  font-size: 2rem;
+  margin-left: 1rem;
+  .icon {
+    margin: 1rem;
+  }
+
+  .instagram {
+    position: relative;
+    margin-right: 0.5rem;
+    top: 4px;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .cart {
+    color: #9997fa;
+  }
+  .box {
+    color: #f44242;
+  }
+`;
+
+export const HeadingWrapper = styled.div`
   @import url("https://fonts.googleapis.com/css?family=East+Sea+Dokdo&display=swap");
   display: flex;
   justify-content: center;
   align-items: center;
   color: #fed19c;
 
-  font-size: 3rem;
+  font-size: 4rem;
   background: white;
   width: 100%;
   height: 20rem;
   font-family: "East Sea Dokdo", cursive;
   /*font-family: "Pacifico", cursive;*/
-
-  .nav-item {
-    color: #f5a4ab;
-    border-bottom: 3px solid transparent;
-    &:hover {
-      border-bottom: 3px solid black;
-    }
-  }
-`;
-
-const TextAndPic = styled.div`
-  display: flex;
-  margin-top: 3rem;
-  padding: 1rem;
-  background: linear-gradient(#f7c289 0%, #f5a4ab 50%, #faa896 100%);
-  box-shadow: 10px -10px 2px 4px #f9f9f9;
-  color: black;
-
-  .text {
-    background: white;
-
-    font-family: "Pacifico", cursive;
-  }
 `;
 
 export default App;
